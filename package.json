@@ -4,6 +4,10 @@
   "private": true,
   "scripts": {
     "start": "react-scripts start",
+    "tsc": "tsc --noemit",
+    "lint": "tslint -c tslint.json \"./src/**/*.{ts,tsx}\"",
+    "prettier": "prettier-tslint fix \"./src/**/*.{ts,tsx}\"",
+    "pre-commit": "npm run tsc && npm run prettier && npm run lint",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
@@ -34,6 +38,23 @@
       "last 1 chrome version",
       "last 1 firefox version",
       "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "husky": "^4.2.3",
+    "lint-staged": "^10.0.8",
+    "prettier": "^1.19.1",
+    "prettier-tslint": "^0.4.2",
+    "tslint": "^6.0.0"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "./src/**/*.{ts,tsx}": [
+      "npm run pre-commit"
     ]
   }
 }
