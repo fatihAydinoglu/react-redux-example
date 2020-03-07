@@ -1,5 +1,6 @@
 import React from 'react'
+import Router from './router'
 
-const App = () => <h3>React redux example</h3>
+const App = () => <Router />
 
 export default App
