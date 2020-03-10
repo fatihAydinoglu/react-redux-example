@@ -1,18 +1,21 @@
 import React from 'react'
 import { Route, Redirect, RouteProps } from 'react-router-dom'
 
+import { getLocalToken } from '../auth'
+import routes from './routes'
+
 const PrivateRoute: React.FC<RouteProps> = ({ children, ...rest }) => {
-  const isAuthenticated = true // TODO: set this flag
+  const token = getLocalToken()
   return (
     <Route
       {...rest}
       render={({ location }) =>
-        isAuthenticated ? (
+        token ? (
           children
         ) : (
           <Redirect
             to={{
-              pathname: '/login',
+              pathname: routes.login,
               state: { from: location },
             }}
           />

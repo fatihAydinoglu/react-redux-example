@@ -2,6 +2,10 @@ import jsonServer from 'json-server'
 import jwt from 'jsonwebtoken'
 import db from './db.json'
 
+interface TokenPayload {
+  username: string
+}
+
 const server = jsonServer.create()
 const router = jsonServer.router(db)
 const middlewares = jsonServer.defaults()
@@ -42,7 +46,7 @@ server.post('/auth/token', (request, response) => {
   }
 
   const token = jwt.sign({ username }, jwtSecret, { expiresIn: '7d' })
-  return response.status(200).json({ token, user })
+  return response.status(200).json({ token })
 })
 
 // middleware to check token
@@ -57,20 +61,39 @@ server.use((request, response, next) => {
       return response.status(401).json(errors.UNAUTHORIZED)
     }
     const token = splittedAuthHeader[1]
-    jwt.verify(token, jwtSecret, error => {
-      return next(error)
+    jwt.verify(token, jwtSecret, (error, payload) => {
+      if (error) {
+        return next(error)
+      }
+      const { username } = payload as TokenPayload
+      if (username) {
+        const user = db.users.find(u => u.username === username)
+        if (user) {
+          (request as any).loggedInUser = user
+        }
+      }
+      next()
     })
   } catch (error) {
     next(error)
   }
 })
 
+server.get('/me', (request, response, next) => {
+  if ((request as any).loggedInUser) {
+    return response.json((request as any).loggedInUser)
+  }
+  next()
+})
+
 server.use(router)
 
 // error handler
-server.use((err: Error, req: any, response: any, next: any) => {
+server.use((err: Error, request: any, response: any, next: any) => {
   return response.status(500).send({ errorMessage: err.message })
 })
+
+server.use((req, res) => res.status(404).json({ message: 'Not found' }))
 
 server.listen(port, () => {
   // tslint:disable-next-line:no-console

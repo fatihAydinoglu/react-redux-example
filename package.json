@@ -16,6 +16,9 @@
     "eject": "react-scripts eject"
   },
   "dependencies": {
+    "@material-ui/core": "^4.9.5",
+    "@material-ui/icons": "^4.9.1",
+    "@material-ui/styles": "^4.9.0",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
@@ -25,8 +28,12 @@
     "@types/react-dom": "^16.9.0",
     "react": "^16.13.0",
     "react-dom": "^16.13.0",
+    "react-redux": "^7.2.0",
     "react-router-dom": "^5.1.2",
     "react-scripts": "3.4.0",
+    "redux": "^4.0.5",
+    "redux-devtools-extension": "^2.13.8",
+    "redux-saga": "^1.1.3",
     "typescript": "~3.7.2"
   },
   "eslintConfig": {
@@ -47,6 +54,7 @@
   "devDependencies": {
     "@types/json-server": "^0.14.2",
     "@types/jsonwebtoken": "^8.3.8",
+    "@types/react-redux": "^7.1.7",
     "@types/react-router-dom": "^5.1.3",
     "concurrently": "^5.1.0",
     "husky": "^4.2.3",
