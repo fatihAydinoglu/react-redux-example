@@ -7,7 +7,7 @@ import Button from '@material-ui/core/Button'
 import { logError } from '../lib/logger'
 import useForm, { ValidationRules, State } from '../lib/hooks/useForm'
 import { getLocalToken, setLocalToken } from './token'
-import { getServerToken } from '../api'
+import getServerToken from '../api/getServerToken'
 import { showErrorNotification } from '../notification'
 
 const required = (val: string) => (!val ? 'Required' : '')
