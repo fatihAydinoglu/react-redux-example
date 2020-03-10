@@ -1,33 +1,61 @@
 import React from 'react'
+import { Redirect, useHistory, useLocation } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
 import TextField from '@material-ui/core/TextField'
 import Button from '@material-ui/core/Button'
 
-import useForm, { ValidationRules } from '../lib/useForm'
+import { logError } from '../lib/logger'
+import useForm, { ValidationRules, State } from '../lib/hooks/useForm'
+import { getLocalToken, setLocalToken } from './token'
+import { getServerToken } from '../api'
+import { showErrorNotification } from '../notification'
 
 const required = (val: string) => (!val ? 'Required' : '')
-
-const fieldNames = ['username', 'password']
 
 const validationRules: ValidationRules = {
   username: required,
   password: required,
 }
 
-const initialValueState = fieldNames.reduce<{ [key: string]: string }>(
-  (prev, curr) => {
-    prev[curr] = ''
-    return prev
-  },
-  {}
-)
+interface ValueState extends State {
+  username: string
+  password: string
+}
+
+const initialValueState: ValueState = {
+  username: '',
+  password: '',
+}
 
 const Login: React.FC = () => {
-  const onSubmit = () => null
-  const [values, errorMessages, handleInputChange, handleSubmit] = useForm(
-    initialValueState,
-    validationRules,
-    onSubmit
-  )
+  const location = useLocation<{ from: string }>()
+  const history = useHistory()
+  const dispatch = useDispatch()
+
+  const currentToken = getLocalToken()
+
+  const onSubmit = (submittedValues: ValueState) => {
+    getServerToken(submittedValues)
+      .then(({ token }) => {
+        if (token) {
+          setLocalToken(token)
+          const { from } = location.state || { from: { pathname: '/' } }
+          history.replace(from)
+        }
+      })
+      .catch(err => {
+        logError(err)
+        dispatch(showErrorNotification('Unable to login!'))
+      })
+  }
+  const [values, errorMessages, handleInputChange, handleSubmit] = useForm<
+    ValueState
+  >(initialValueState, validationRules, onSubmit)
+
+  if (currentToken) {
+    return <Redirect to={{ pathname: '/' }} />
+  }
+
   return (
     <form autoComplete="off" onSubmit={handleSubmit}>
       <TextField

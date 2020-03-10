@@ -79,7 +79,7 @@ server.use((request, response, next) => {
   }
 })
 
-server.get('/me', (request, response, next) => {
+server.get('/auth/me', (request, response, next) => {
   if ((request as any).loggedInUser) {
     return response.json((request as any).loggedInUser)
   }

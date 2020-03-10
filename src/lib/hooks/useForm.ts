@@ -3,14 +3,14 @@ import { useState } from 'react'
 type ValidationResult = { [key: string]: string }
 export type ValidationRules = { [key: string]: (val: string) => string }
 
-interface State {
+export interface State {
   [key: string]: string
 }
 
-type UseForm = (
-  initialValueState: State,
+type UseForm = <ValueState extends State>(
+  initialValueState: ValueState,
   validationRules: ValidationRules,
-  onSubmit: (values: State) => void
+  onSubmit: (values: ValueState) => void
 ) => [
   State,
   ValidationResult,
@@ -18,10 +18,10 @@ type UseForm = (
   (event: React.SyntheticEvent) => void
 ]
 
-const useForm: UseForm = (
-  initialValueState: State,
+const useForm: UseForm = <ValueState extends State>(
+  initialValueState: ValueState,
   validationRules: ValidationRules,
-  onSubmit: (values: State) => void
+  onSubmit: (values: ValueState) => void
 ) => {
   const [values, setValues] = useState(initialValueState)
   const [errorMessages, setErrorMessages] = useState<ValidationResult>({})

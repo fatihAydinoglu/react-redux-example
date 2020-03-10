@@ -1,7 +1,7 @@
 const routes = {
   blogPosts: '/blog',
   login: '/login',
-  signup: '/singup',
+  signup: '/signup',
 }
 
 export default routes
