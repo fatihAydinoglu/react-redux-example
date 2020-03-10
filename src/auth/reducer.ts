@@ -3,7 +3,8 @@ import {
   CurrentUserActionTypes,
   CURRENT_USER_FETCH_REQUESTED,
   CURRENT_USER_FETCH_SUCCEEDED,
-  CURRENT_USER_FETCH_FAILED
+  CURRENT_USER_FETCH_FAILED,
+  CURRENT_USER_RESET
 } from './actions'
 
 export const STATE_KEY = 'auth'
@@ -25,6 +26,7 @@ const authReducer = (
       return { ...state, currentUser: { ...action.user } }
     case CURRENT_USER_FETCH_FAILED:
     case CURRENT_USER_FETCH_REQUESTED:
+    case CURRENT_USER_RESET:
       return { ...state, currentUser: null }
     default:
       return state

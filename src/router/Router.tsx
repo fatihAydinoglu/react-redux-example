@@ -3,6 +3,7 @@ import { BrowserRouter, Switch, Route } from 'react-router-dom'
 import Container from '@material-ui/core/Container'
 import { makeStyles } from '@material-ui/core/styles'
 
+import Menu from '../components/Menu'
 import PrivateRoute from './PrivateRoute'
 import NotFound from './NotFound'
 
@@ -20,9 +21,9 @@ const useStyles = makeStyles({
 const Router: React.FC = props => {
   const classes = useStyles()
   return (
-    <Container className={classes.root}>
-      <BrowserRouter>
-        {props.children}
+    <BrowserRouter>
+      <Menu />
+      <Container className={classes.root}>
         <Switch>
           <Route exact path="/">
             <InitialRoute />
@@ -40,8 +41,8 @@ const Router: React.FC = props => {
             <NotFound />
           </Route>
         </Switch>
-      </BrowserRouter>
-    </Container>
+      </Container>
+    </BrowserRouter>
   )
 }
 
