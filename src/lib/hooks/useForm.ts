@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-type ValidationResult = { [key: string]: string }
+export type ValidationResult = { [key: string]: string }
 export type ValidationRules = { [key: string]: (val: string) => string }
 
 export interface State {

@@ -7,7 +7,7 @@ import Menu from '../components/Menu'
 import PrivateRoute from './PrivateRoute'
 import NotFound from './NotFound'
 
-import { InitialRoute, Login, Singup } from '../auth'
+import { InitialRoute, Login, Signup } from '../auth'
 import { BlogPosts } from '../blogPosts'
 import routes from './routes'
 
@@ -32,7 +32,7 @@ const Router: React.FC = props => {
             <Login />
           </Route>
           <Route path={routes.signup}>
-            <Singup />
+            <Signup />
           </Route>
           <PrivateRoute path={routes.blogPosts}>
             <BlogPosts />

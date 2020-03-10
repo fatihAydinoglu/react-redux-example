@@ -1,14 +1,26 @@
 import React from 'react'
 import { Redirect, useHistory, useLocation } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
-import TextField from '@material-ui/core/TextField'
 import Button from '@material-ui/core/Button'
+import { makeStyles } from '@material-ui/core/styles'
 
 import { logError } from '../lib/logger'
 import useForm, { ValidationRules, State } from '../lib/hooks/useForm'
 import { getLocalToken, setLocalToken } from './token'
 import getServerToken from '../api/getServerToken'
 import { showErrorNotification } from '../notification'
+import { routes } from '../router'
+import UserForm from './UserForm'
+
+const useStyles = makeStyles(theme => ({
+  signup: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    width: '100%',
+    marginTop: theme.spacing(2),
+  },
+}))
 
 const required = (val: string) => (!val ? 'Required' : '')
 
@@ -31,6 +43,7 @@ const Login: React.FC = () => {
   const location = useLocation<{ from: string }>()
   const history = useHistory()
   const dispatch = useDispatch()
+  const classes = useStyles()
 
   const currentToken = getLocalToken()
 
@@ -57,33 +70,26 @@ const Login: React.FC = () => {
   }
 
   return (
-    <form autoComplete="off" onSubmit={handleSubmit}>
-      <TextField
-        id="username"
-        label="User name"
-        fullWidth
-        margin="dense"
-        value={values.username}
-        error={!!errorMessages.username}
-        helperText={errorMessages.username}
-        onChange={handleInputChange}
+    <div>
+      <UserForm
+        buttonText="Login"
+        values={values}
+        errorMessages={errorMessages}
+        onInputChange={handleInputChange}
+        onSubmit={handleSubmit}
       />
-      <TextField
-        id="password"
-        label="Password"
-        type="password"
-        autoComplete="current-password"
-        fullWidth
-        margin="dense"
-        value={values.password}
-        error={!!errorMessages.password}
-        helperText={errorMessages.password}
-        onChange={handleInputChange}
-      />
-      <Button variant="contained" color="primary" fullWidth type="submit">
-        Login
-      </Button>
-    </form>
+      <div className={classes.signup}>
+        <span>Don't have an account?</span>
+        <Button
+          variant="contained"
+          color="default"
+          fullWidth
+          onClick={() => history.push(routes.signup)}
+        >
+          Sign up
+        </Button>
+      </div>
+    </div>
   )
 }
 

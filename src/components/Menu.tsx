@@ -33,9 +33,9 @@ const Menu = () => {
     if (currentUser) {
       dispatch(resetCurrentUser())
       removeLocalToken()
-      history.replace('/')
+      history.push('/')
     } else {
-      history.replace(routes.login)
+      history.push(routes.login)
     }
   }
 

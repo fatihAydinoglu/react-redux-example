@@ -51,6 +51,11 @@ server.post('/auth/token', (request, response) => {
 
 // middleware to check token
 server.use((request, response, next) => {
+  // allow creating user without token
+  if (request.path === '/users' && request.method === 'POST') {
+    return next()
+  }
+
   try {
     const authHeader = request.headers.authorization
     if (!authHeader) {
