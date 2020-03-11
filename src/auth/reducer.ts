@@ -1,5 +1,4 @@
 import {
-  User,
   CurrentUserActionTypes,
   CURRENT_USER_FETCH_REQUESTED,
   CURRENT_USER_FETCH_SUCCEEDED,
@@ -19,9 +18,9 @@ const initialState: State = {
 }
 
 const authReducer = (
-  state: State = initialState,
+  state: Immutable<State> = initialState,
   action: CurrentUserActionTypes
-): State => {
+) => {
   switch (action.type) {
     case CURRENT_USER_FETCH_SUCCEEDED:
       return { ...state, currentUser: { ...action.user } }

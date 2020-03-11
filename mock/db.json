@@ -1,6 +1,7 @@
 {
   "posts": [
-    { "id": 1, "title": "How to survive on a desert island", "body": "Don't go there!", "userId": 1001 }
+    { "id": 1, "title": "How to survive on a desert island", "body": "My advice is simple: Don't go there!", "userId": 1001 },
+    { "id": 2, "title": "The Meaning of Life", "body": "Is this a dagger which I see before me, the handle toward my hand?", "userId": 1002 }
   ],
   "comments": [
     { "id": 100, "body": "Nice one!", "postId": 1, "userId": 1002 }

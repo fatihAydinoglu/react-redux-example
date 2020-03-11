@@ -16,7 +16,7 @@ const initialState = {
 }
 
 const notificationReducer = (
-  state: State = initialState,
+  state: Immutable<State> = initialState,
   action: NotificationActions
 ) => {
   switch (action.type) {

@@ -10,15 +10,6 @@ export const CREATE_USER_FAILED = 'CREATE_USER_FAILED'
 export const CURRENT_USER_RESET = 'CURRENT_USER_RESET'
 
 // Action Creators
-export interface UserBase {
-  username: string
-  name: string
-}
-
-export interface User extends UserBase {
-  username: string
-  name: string
-}
 
 // Fetch Current User
 interface CurrentUserRequestedAction {

@@ -1,11 +1,7 @@
 import { API_URL_BASE } from '../config'
 import apiRequest, { API_METHODS } from './apiRequest'
 
-export interface GetServerTokenResponse {
-  id: number
-  username: string
-  name: string
-}
+export interface GetServerTokenResponse extends User {}
 
 const getCurrentUser = () =>
   apiRequest<any, GetServerTokenResponse>(API_METHODS.GET)(
