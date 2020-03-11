@@ -10,7 +10,6 @@
     "tsc": "tsc --noemit",
     "lint": "tslint -c tslint.json \"./src/**/*.{ts,tsx}\"",
     "prettier": "prettier-tslint fix \"./src/**/*.{ts,tsx}\"",
-    "pre-commit": "npm run prettier",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
@@ -75,7 +74,8 @@
   },
   "lint-staged": {
     "./src/**/*.{ts,tsx}": [
-      "npm run pre-commit"
+      "prettier-tslint fix",
+      "git add"
     ]
   }
 }
