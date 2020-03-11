@@ -2,6 +2,8 @@ import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { makeStyles } from '@material-ui/core/styles'
 import Button from '@material-ui/core/Button'
+import ExitToAppIcon from '@material-ui/icons/ExitToApp'
+import AccountCircleIcon from '@material-ui/icons/AccountCircle'
 import { useHistory } from 'react-router-dom'
 
 import { removeLocalToken } from '../auth/token'
@@ -28,6 +30,7 @@ const Menu = () => {
   const history = useHistory()
 
   const buttonText = currentUser ? 'Logout' : 'Login'
+  const ButtonIcon = currentUser ? ExitToAppIcon : AccountCircleIcon
 
   const handleButtonClick = () => {
     if (currentUser) {
@@ -42,7 +45,11 @@ const Menu = () => {
   return (
     <div className={classes.root}>
       {currentUser && <span>{currentUser.name}</span>}
-      <Button color="primary" onClick={handleButtonClick}>
+      <Button
+        color="primary"
+        startIcon={<ButtonIcon />}
+        onClick={handleButtonClick}
+      >
         {buttonText}
       </Button>
     </div>
