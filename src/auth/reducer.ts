@@ -20,7 +20,7 @@ const initialState: State = {
 const authReducer = (
   state: Immutable<State> = initialState,
   action: CurrentUserActionTypes
-) => {
+): Immutable<State> => {
   switch (action.type) {
     case CURRENT_USER_FETCH_SUCCEEDED:
       return { ...state, currentUser: { ...action.user } }

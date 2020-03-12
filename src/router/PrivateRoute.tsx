@@ -32,7 +32,7 @@ const PrivateRoute: React.FC<RouteProps> = ({ children, ...rest }) => {
         ) : (
           <Redirect
             to={{
-              pathname: routes.login,
+              pathname: routes.login(),
               state: { from: location },
             }}
           />

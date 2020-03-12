@@ -1,7 +1,8 @@
 import { all, fork } from 'redux-saga/effects'
 
-import fetchBlogPostsSaga from './fetchBlogPostsSaga'
+import fetchBlogPostListSaga from './fetchBlogPostListSaga'
+import fetchBlogPostSaga from './fetchBlogPostSaga'
 
 export default function* blogPostSagas() {
-  yield all([fork(fetchBlogPostsSaga)])
+  yield all([fork(fetchBlogPostListSaga), fork(fetchBlogPostSaga)])
 }

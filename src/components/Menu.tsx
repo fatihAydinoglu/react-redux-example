@@ -38,7 +38,7 @@ const Menu = () => {
       removeLocalToken()
       history.push('/')
     } else {
-      history.push(routes.login)
+      history.push(routes.login())
     }
   }
 

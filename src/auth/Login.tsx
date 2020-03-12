@@ -86,7 +86,7 @@ const Login: React.FC = () => {
           color="default"
           fullWidth
           startIcon={<PersonAddIcon />}
-          onClick={() => history.push(routes.signup)}
+          onClick={() => history.push(routes.signup())}
         >
           Sign up
         </Button>

@@ -8,8 +8,8 @@ import PrivateRoute from './PrivateRoute'
 import NotFound from './NotFound'
 
 import { InitialRoute, Login, Signup } from '../auth'
-import { BlogPosts } from '../blogPosts'
-import routes from './routes'
+import { BlogPostList, BlogPost } from '../blogPosts'
+import { routePaths } from './routes'
 
 const useStyles = makeStyles({
   root: {
@@ -28,14 +28,17 @@ const Router: React.FC = props => {
           <Route exact path="/">
             <InitialRoute />
           </Route>
-          <Route path={routes.login}>
+          <Route path={routePaths.login}>
             <Login />
           </Route>
-          <Route path={routes.signup}>
+          <Route path={routePaths.signup}>
             <Signup />
           </Route>
-          <PrivateRoute path={routes.blogPosts}>
-            <BlogPosts />
+          <PrivateRoute path={routePaths.blogPosts}>
+            <BlogPostList />
+          </PrivateRoute>
+          <PrivateRoute path={routePaths.post}>
+            <BlogPost />
           </PrivateRoute>
           <Route path="*">
             <NotFound />

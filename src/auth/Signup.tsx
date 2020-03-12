@@ -34,7 +34,7 @@ const Signup: React.FC = () => {
   const onSubmit = (submittedValues: ValueState) => {
     const { name, username } = submittedValues
     dispatch(createUser({ name, username }))
-    history.replace(routes.login)
+    history.replace(routes.login())
   }
   const [values, errorMessages, handleInputChange, handleSubmit] = useForm<
     ValueState

@@ -18,7 +18,7 @@ const initialState = {
 const notificationReducer = (
   state: Immutable<State> = initialState,
   action: NotificationActions
-) => {
+): Immutable<State> => {
   switch (action.type) {
     case SHOW_NOTIFICATION:
       return { message: action.message, error: action.error }

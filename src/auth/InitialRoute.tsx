@@ -5,7 +5,7 @@ import CircularProgress from '@material-ui/core/CircularProgress'
 import { getLocalToken } from './token'
 import routes from '../router/routes'
 
-const DEFAULT_ROUTE = routes.blogPosts
+const DEFAULT_ROUTE = routes.blogPosts()
 
 const InitialRoute = () => {
   const history = useHistory()
@@ -15,7 +15,7 @@ const InitialRoute = () => {
     if (token) {
       history.replace(DEFAULT_ROUTE)
     } else {
-      history.replace(routes.login)
+      history.replace(routes.login())
     }
   }, [history, token])
 
