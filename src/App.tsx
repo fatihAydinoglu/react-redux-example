@@ -5,17 +5,13 @@ import 'whatwg-fetch'
 
 import store from './store'
 import Router from './router'
-import Header from './components/Header'
-import Footer from './components/Footer'
 import { Notification } from './notification'
 
 const App = () => (
   <Provider store={store}>
     <CssBaseline />
     <Notification />
-    <Header />
     <Router />
-    <Footer />
   </Provider>
 )
 

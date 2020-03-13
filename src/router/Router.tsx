@@ -3,9 +3,10 @@ import { BrowserRouter, Switch, Route } from 'react-router-dom'
 import Container from '@material-ui/core/Container'
 import { makeStyles } from '@material-ui/core/styles'
 
-import Menu from '../components/Menu'
 import PrivateRoute from './PrivateRoute'
 import NotFound from './NotFound'
+import Header from '../components/Header'
+import Footer from '../components/Footer'
 
 import { InitialRoute, Login, Signup } from '../auth'
 import { BlogPostList, BlogPost } from '../blogPosts'
@@ -22,7 +23,7 @@ const Router: React.FC = props => {
   const classes = useStyles()
   return (
     <BrowserRouter>
-      <Menu />
+      <Header />
       <Container className={classes.root}>
         <Switch>
           <Route exact path="/">
@@ -45,6 +46,7 @@ const Router: React.FC = props => {
           </Route>
         </Switch>
       </Container>
+      <Footer />
     </BrowserRouter>
   )
 }

@@ -41,14 +41,16 @@ const Signup: React.FC = () => {
   >(initialValueState, validationRules, onSubmit)
 
   return (
-    <UserForm
-      buttonText="Signup"
-      values={values}
-      errorMessages={errorMessages}
-      onInputChange={handleInputChange}
-      onSubmit={handleSubmit}
-      showNameField
-    />
+    <div>
+      <UserForm
+        buttonText="Signup"
+        values={values}
+        errorMessages={errorMessages}
+        onInputChange={handleInputChange}
+        onSubmit={handleSubmit}
+        showNameField
+      />
+    </div>
   )
 }
 
