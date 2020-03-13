@@ -1,13 +1,17 @@
+import { BlogPostsActionTypes } from './actions'
+
 import {
-  BlogPostsActionTypes,
   BLOG_POST_LIST_FETCH_REQUESTED,
   BLOG_POST_LIST_FETCH_SUCCEEDED,
   BLOG_POST_LIST_FETCH_FAILED,
+  BlogPostExpandedUserItems
+} from './actions/fetchListActions'
+
+import {
   BLOG_POST_FETCH_REQUESTED,
   BLOG_POST_FETCH_SUCCEEDED,
-  BLOG_POST_FETCH_FAILED,
-  BlogPostExpandedUserItems
-} from './actions'
+  BLOG_POST_FETCH_FAILED
+} from './actions/fetchItemActions'
 
 import { LoadingStatus } from '../common'
 

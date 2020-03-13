@@ -7,12 +7,15 @@ import Paper from '@material-ui/core/Paper'
 
 import { LoadingStatus } from '../../common'
 import { RootState } from '../../store/rootReducer'
-import { fetchBlogPost, BlogPostExpandedUserItem } from '../actions'
+import { fetchBlogPost } from '../actions'
+import { BlogPostExpandedUserItem } from '../actions/fetchListActions'
 import { makeBlogPostSelector } from '../selector'
+
 import BlogPostCard from './BlogPostCard'
+import { Comments } from '../../comments'
 
 const useStyles = makeStyles(theme => ({
-  root: {
+  cardWrapper: {
     backgroundColor: '#D3D3D3',
     marginTop: theme.spacing(),
   },
@@ -40,9 +43,12 @@ const BlogPost: React.FC = () => {
     return <CircularProgress />
   }
   return (
-    <Paper className={classes.root} elevation={3}>
-      <BlogPostCard blogPost={post.detail} />
-    </Paper>
+    <>
+      <Paper className={classes.cardWrapper} elevation={3}>
+        <BlogPostCard blogPost={post.detail} />
+        <Comments blogPostId={post.detail.id} />
+      </Paper>
+    </>
   )
 }
 

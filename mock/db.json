@@ -4,7 +4,8 @@
     { "id": 2, "title": "The Meaning of Life", "body": "Is this a dagger which I see before me, the handle toward my hand?", "userId": 1002 }
   ],
   "comments": [
-    { "id": 100, "body": "Nice one!", "postId": 1, "userId": 1002 }
+    { "id": 100, "body": "Nice one!", "postId": 1, "userId": 1002 },
+    { "id": 101, "body": "Thanks @Jane Doe", "postId": 1, "userId": 1001 }
   ],
   "users": [
     { "id": 1001, "username": "johnDoe", "name": "John Doe" },

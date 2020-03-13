@@ -7,7 +7,7 @@ import {
   FetchBlogPostRequestedAction,
   fetchBlogPostSucceeded,
   fetchBlogPostFailed
-} from '../actions'
+} from '../actions/fetchItemActions'
 import { showErrorNotification } from '../../notification'
 
 function* fetchBlogPost(action: FetchBlogPostRequestedAction) {

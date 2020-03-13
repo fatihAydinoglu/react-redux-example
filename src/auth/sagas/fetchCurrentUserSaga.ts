@@ -3,6 +3,7 @@ import { call, put, takeLatest } from 'redux-saga/effects'
 import getCurrentUser, {
   GetServerTokenResponse
 } from '../../api/getCurrentUser'
+import { removeLocalToken } from '../token'
 
 import {
   CURRENT_USER_FETCH_REQUESTED,
@@ -16,6 +17,7 @@ function* fetchCurrentUser() {
     const currentUser: GetServerTokenResponse = yield call(getCurrentUser)
     yield put(fetchCurrentUserSucceeded(currentUser))
   } catch (e) {
+    removeLocalToken()
     yield put(
       showErrorNotification('Unexpected error while getting current user')
     )

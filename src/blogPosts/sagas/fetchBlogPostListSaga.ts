@@ -8,7 +8,7 @@ import {
   fetchBlogPostListSucceeded,
   fetchBlogPostListFailed,
   BlogPostExpandedUserItems
-} from '../actions'
+} from '../actions/fetchListActions'
 import { showErrorNotification } from '../../notification'
 
 function* fetchBlogPostList() {

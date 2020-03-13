@@ -22,6 +22,17 @@ interface BlogPostExpandedUser extends BlogPost {
   user: User
 }
 
+interface CommentType {
+  id: number
+  body: string
+  postId: number
+  userId: number
+}
+
+interface CommentExpandedUser extends CommentType {
+  user: User
+}
+
 // Common Types
 type ImmutablePrimitive =
   | undefined
