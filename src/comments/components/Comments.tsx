@@ -20,7 +20,7 @@ import EditIcon from '@material-ui/icons/Edit'
 import { LoadingStatus } from '../../common'
 import { getCurrentUser } from '../../auth/selector'
 import { RootState } from '../../store/rootReducer'
-import { fetchCommentList, saveComment } from '../actions'
+import { fetchCommentList, saveComment, deleteComment } from '../actions'
 import { makeCommentListSelector, SelectorResult } from '../selector'
 import CommentForm from './CommentForm'
 
@@ -49,6 +49,12 @@ const useStyles = makeStyles(theme => ({
   },
   iconButton: {
     padding: 4,
+  },
+  loaderIcon: {
+    position: 'absolute',
+    zIndex: 2,
+    left: 'calc(50% - 20px)',
+    marginTop: 10,
   },
 }))
 
@@ -82,10 +88,6 @@ const Comments: React.FC<Props> = props => {
     }
   }, [blogPostId, result, dispatch])
 
-  if (!result || result.isLoading === LoadingStatus.LOADING) {
-    return <CircularProgress />
-  }
-
   const handleCommentFormSubmit: SaveCommentForm = commentText => {
     if (currentUser) {
       dispatch(
@@ -99,50 +101,60 @@ const Comments: React.FC<Props> = props => {
     }
   }
 
+  const handleDeleteComment = (id: number) => {
+    dispatch(deleteComment(id, blogPostId))
+  }
+
+  const isLoading = !result || result.isLoading === LoadingStatus.LOADING
+  const commentCount = result ? result.commentList.length : 0
+
   return (
     <Card className={classes.card}>
       <CardContent>
-        <Typography variant="h6">
-          Comments ({result.commentList.length})
-        </Typography>
+        <Typography variant="h6">Comments ({commentCount})</Typography>
         <CommentForm onSubmit={handleCommentFormSubmit} />
-        {result.commentList.length > 0 && (
+        {isLoading && <CircularProgress className={classes.loaderIcon} />}
+        {commentCount > 0 && (
           <List className={classes.list}>
-            {result.commentList.map((item, index) => (
-              <div key={item.id}>
-                <ListItem key={item.id} alignItems="flex-start">
-                  <ListItemAvatar>
-                    <Avatar alt={item.user.name}>{item.user.name[0]}</Avatar>
-                  </ListItemAvatar>
-                  <ListItemText
-                    primary={item.user.name}
-                    secondary={
-                      <Typography className={classes.commentText}>
-                        {item.body}
-                      </Typography>
-                    }
-                  />
-                  {currentUser &&
-                    currentUser.id &&
-                    currentUser.id === item.userId && (
-                      <ListItemSecondaryAction
-                        className={classes.commentActions}
-                      >
-                        <IconButton className={classes.iconButton}>
-                          <EditIcon />
-                        </IconButton>
-                        <IconButton className={classes.iconButton}>
-                          <DeleteIcon />
-                        </IconButton>
-                      </ListItemSecondaryAction>
-                    )}
-                </ListItem>
+            {result &&
+              result.commentList.map((item, index) => (
+                <div key={item.id}>
+                  <ListItem key={item.id} alignItems="flex-start">
+                    <ListItemAvatar>
+                      <Avatar alt={item.user.name}>{item.user.name[0]}</Avatar>
+                    </ListItemAvatar>
+                    <ListItemText
+                      primary={item.user.name}
+                      secondary={
+                        <Typography className={classes.commentText}>
+                          {item.body}
+                        </Typography>
+                      }
+                    />
+                    {currentUser &&
+                      currentUser.id &&
+                      currentUser.id === item.userId && (
+                        <ListItemSecondaryAction
+                          className={classes.commentActions}
+                        >
+                          <IconButton className={classes.iconButton}>
+                            <EditIcon />
+                          </IconButton>
+                          <IconButton
+                            className={classes.iconButton}
+                            onClick={() => handleDeleteComment(item.id)}
+                          >
+                            <DeleteIcon />
+                          </IconButton>
+                        </ListItemSecondaryAction>
+                      )}
+                  </ListItem>
 
-                {index !== result.commentList.length - 1 && (
-                  <Divider variant="inset" component="li" />
-                )}
-              </div>
-            ))}
+                  {index !== result.commentList.length - 1 && (
+                    <Divider variant="inset" component="li" />
+                  )}
+                </div>
+              ))}
           </List>
         )}
       </CardContent>

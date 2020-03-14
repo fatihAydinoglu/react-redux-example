@@ -9,7 +9,13 @@ import {
   SAVE_COMMENT_REQUESTED,
   SAVE_COMMENT_SUCCEEDED,
   SAVE_COMMENT_FAILED
-} from './actions/createCommentActions'
+} from './actions/saveCommentActions'
+
+import {
+  DELETE_COMMENT_REQUESTED,
+  DELETE_COMMENT_SUCCEEDED,
+  DELETE_COMMENT_FAILED
+} from './actions/deleteCommentActions'
 
 import { CommentsActionTypes } from './actions'
 
@@ -81,6 +87,37 @@ const commentsReducer = (
           isLoading: LoadingStatus.HAS_ERROR,
         },
       }
+
+    case DELETE_COMMENT_REQUESTED:
+      return {
+        ...state,
+        [action.postId]: {
+          ...state[action.postId],
+          isLoading: LoadingStatus.LOADING,
+        },
+      }
+
+    case DELETE_COMMENT_SUCCEEDED:
+      return {
+        ...state,
+        [action.postId]: {
+          ...state[action.postId],
+          isLoading: LoadingStatus.LOADED,
+          commentList: state[action.postId].commentList.filter(
+            comment => comment.id !== action.id
+          ),
+        },
+      }
+
+    case DELETE_COMMENT_FAILED:
+      return {
+        ...state,
+        [action.postId]: {
+          ...state[action.postId],
+          isLoading: LoadingStatus.HAS_ERROR,
+        },
+      }
+
     default:
       return state
   }

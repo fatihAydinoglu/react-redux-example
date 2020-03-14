@@ -7,7 +7,7 @@ import {
   SaveCommentRequestedAction,
   saveCommentSucceeded,
   saveCommentFailed
-} from '../actions/createCommentActions'
+} from '../actions/saveCommentActions'
 import { showErrorNotification } from '../../notification'
 
 function* saveComment(action: SaveCommentRequestedAction) {
