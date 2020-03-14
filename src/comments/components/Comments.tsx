@@ -12,11 +12,17 @@ import ListItemText from '@material-ui/core/ListItemText'
 import ListItemAvatar from '@material-ui/core/ListItemAvatar'
 import Avatar from '@material-ui/core/Avatar'
 import CircularProgress from '@material-ui/core/CircularProgress'
+import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction'
+import IconButton from '@material-ui/core/IconButton'
+import DeleteIcon from '@material-ui/icons/Delete'
+import EditIcon from '@material-ui/icons/Edit'
 
 import { LoadingStatus } from '../../common'
+import { getCurrentUser } from '../../auth/selector'
 import { RootState } from '../../store/rootReducer'
-import { fetchCommentList } from '../actions'
+import { fetchCommentList, saveComment } from '../actions'
 import { makeCommentListSelector, SelectorResult } from '../selector'
+import CommentForm from './CommentForm'
 
 const useStyles = makeStyles(theme => ({
   card: {
@@ -26,16 +32,31 @@ const useStyles = makeStyles(theme => ({
   },
   list: {
     width: '100%',
+    marginTop: theme.spacing(2),
     backgroundColor: theme.palette.background.paper,
   },
   inline: {
     display: 'inline',
+  },
+  commentText: {
+    marginRight: 20,
+    whiteSpace: 'pre-line',
+    wordBreak: 'break-word',
+    color: theme.palette.text.secondary,
+  },
+  commentActions: {
+    right: 2,
+  },
+  iconButton: {
+    padding: 4,
   },
 }))
 
 interface Props {
   blogPostId: number
 }
+
+type SaveCommentForm = (commentText: string, id?: number | null) => void
 
 const Comments: React.FC<Props> = props => {
   const { blogPostId } = props
@@ -46,6 +67,7 @@ const Comments: React.FC<Props> = props => {
   )
   const classes = useStyles()
   const dispatch = useDispatch()
+  const currentUser = useSelector(getCurrentUser)
 
   useEffect(() => {
     const shouldFetch =
@@ -64,12 +86,26 @@ const Comments: React.FC<Props> = props => {
     return <CircularProgress />
   }
 
+  const handleCommentFormSubmit: SaveCommentForm = commentText => {
+    if (currentUser) {
+      dispatch(
+        saveComment({
+          body: commentText,
+          postId: blogPostId,
+          userId: currentUser.id,
+          user: currentUser,
+        })
+      )
+    }
+  }
+
   return (
     <Card className={classes.card}>
       <CardContent>
         <Typography variant="h6">
           Comments ({result.commentList.length})
         </Typography>
+        <CommentForm onSubmit={handleCommentFormSubmit} />
         {result.commentList.length > 0 && (
           <List className={classes.list}>
             {result.commentList.map((item, index) => (
@@ -80,9 +116,28 @@ const Comments: React.FC<Props> = props => {
                   </ListItemAvatar>
                   <ListItemText
                     primary={item.user.name}
-                    secondary={item.body}
+                    secondary={
+                      <Typography className={classes.commentText}>
+                        {item.body}
+                      </Typography>
+                    }
                   />
+                  {currentUser &&
+                    currentUser.id &&
+                    currentUser.id === item.userId && (
+                      <ListItemSecondaryAction
+                        className={classes.commentActions}
+                      >
+                        <IconButton className={classes.iconButton}>
+                          <EditIcon />
+                        </IconButton>
+                        <IconButton className={classes.iconButton}>
+                          <DeleteIcon />
+                        </IconButton>
+                      </ListItemSecondaryAction>
+                    )}
                 </ListItem>
+
                 {index !== result.commentList.length - 1 && (
                   <Divider variant="inset" component="li" />
                 )}

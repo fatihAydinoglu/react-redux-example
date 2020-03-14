@@ -18,6 +18,7 @@ const useStyles = makeStyles(theme => ({
   cardWrapper: {
     backgroundColor: '#D3D3D3',
     marginTop: theme.spacing(),
+    flex: 0.75,
   },
   card: {
     margin: theme.spacing(2),

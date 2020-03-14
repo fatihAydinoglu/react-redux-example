@@ -7,7 +7,7 @@ import {
   CommentListRequestedAction,
   fetchCommentListSucceeded,
   fetchCommentListFailed
-} from '../actions'
+} from '../actions/commentListActions'
 import { showErrorNotification } from '../../notification'
 
 function* fetchComment(action: CommentListRequestedAction) {

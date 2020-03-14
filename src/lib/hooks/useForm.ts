@@ -18,6 +18,17 @@ type UseForm = <ValueState extends State>(
   (event: React.SyntheticEvent) => void
 ]
 
+export const createInputProps = (
+  id: string,
+  values: State,
+  errorMessages: ValidationResult
+) => ({
+  id,
+  value: values[id],
+  error: !!errorMessages[id],
+  helperText: errorMessages[id],
+})
+
 const useForm: UseForm = <ValueState extends State>(
   initialValueState: ValueState,
   validationRules: ValidationRules,

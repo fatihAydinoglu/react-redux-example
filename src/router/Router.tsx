@@ -16,6 +16,7 @@ const useStyles = makeStyles({
   root: {
     display: 'flex',
     justifyContent: 'center',
+    marginBottom: 22,
   },
 })
 

@@ -22,11 +22,14 @@ interface BlogPostExpandedUser extends BlogPost {
   user: User
 }
 
-interface CommentType {
-  id: number
+interface CommentBase {
   body: string
   postId: number
   userId: number
+}
+
+interface CommentType extends CommentBase {
+  id: number
 }
 
 interface CommentExpandedUser extends CommentType {

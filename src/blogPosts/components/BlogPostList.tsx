@@ -15,6 +15,7 @@ const useStyles = makeStyles(theme => ({
   root: {
     backgroundColor: '#D3D3D3',
     marginTop: theme.spacing(),
+    flex: 0.75,
   },
 }))
 
