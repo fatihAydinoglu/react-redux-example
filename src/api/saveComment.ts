@@ -7,9 +7,10 @@ export interface SaveCommentRequest extends CommentBase {
 
 const saveComment = (params: SaveCommentRequest) => {
   const method = params.id ? API_METHODS.PUT : API_METHODS.POST
+  const requestUrl = params.id ? `/comments/${params.id}` : '/comments'
 
   return apiRequest<SaveCommentRequest, CommentType>(method)(
-    `${API_URL_BASE}/comments`
+    API_URL_BASE + requestUrl
   )(params)
 }
 

@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
 import Card from '@material-ui/core/Card'
@@ -6,16 +6,7 @@ import CardContent from '@material-ui/core/CardContent'
 import { makeStyles } from '@material-ui/core/styles'
 import Typography from '@material-ui/core/Typography'
 import List from '@material-ui/core/List'
-import ListItem from '@material-ui/core/ListItem'
-import Divider from '@material-ui/core/Divider'
-import ListItemText from '@material-ui/core/ListItemText'
-import ListItemAvatar from '@material-ui/core/ListItemAvatar'
-import Avatar from '@material-ui/core/Avatar'
 import CircularProgress from '@material-ui/core/CircularProgress'
-import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction'
-import IconButton from '@material-ui/core/IconButton'
-import DeleteIcon from '@material-ui/icons/Delete'
-import EditIcon from '@material-ui/icons/Edit'
 
 import { LoadingStatus } from '../../common'
 import { getCurrentUser } from '../../auth/selector'
@@ -23,6 +14,7 @@ import { RootState } from '../../store/rootReducer'
 import { fetchCommentList, saveComment, deleteComment } from '../actions'
 import { makeCommentListSelector, SelectorResult } from '../selector'
 import CommentForm from './CommentForm'
+import CommentItem from './CommentItem'
 
 const useStyles = makeStyles(theme => ({
   card: {
@@ -37,18 +29,6 @@ const useStyles = makeStyles(theme => ({
   },
   inline: {
     display: 'inline',
-  },
-  commentText: {
-    marginRight: 20,
-    whiteSpace: 'pre-line',
-    wordBreak: 'break-word',
-    color: theme.palette.text.secondary,
-  },
-  commentActions: {
-    right: 2,
-  },
-  iconButton: {
-    padding: 4,
   },
   loaderIcon: {
     position: 'absolute',
@@ -66,6 +46,7 @@ type SaveCommentForm = (commentText: string, id?: number | null) => void
 
 const Comments: React.FC<Props> = props => {
   const { blogPostId } = props
+  const [editingCommentId, setEditingCommentId] = useState<number | null>()
 
   const commentListSelector = useMemo(makeCommentListSelector, [])
   const result = useSelector<RootState, SelectorResult | null>(state =>
@@ -88,21 +69,26 @@ const Comments: React.FC<Props> = props => {
     }
   }, [blogPostId, result, dispatch])
 
-  const handleCommentFormSubmit: SaveCommentForm = commentText => {
+  const handleCommentFormSubmit: SaveCommentForm = (commentText, id) => {
     if (currentUser) {
       dispatch(
-        saveComment({
-          body: commentText,
-          postId: blogPostId,
-          userId: currentUser.id,
-          user: currentUser,
-        })
+        saveComment(
+          {
+            body: commentText,
+            postId: blogPostId,
+            userId: currentUser.id,
+            user: currentUser,
+          },
+          id
+        )
       )
+      setEditingCommentId(null)
     }
   }
 
   const handleDeleteComment = (id: number) => {
     dispatch(deleteComment(id, blogPostId))
+    setEditingCommentId(null)
   }
 
   const isLoading = !result || result.isLoading === LoadingStatus.LOADING
@@ -114,46 +100,20 @@ const Comments: React.FC<Props> = props => {
         <Typography variant="h6">Comments ({commentCount})</Typography>
         <CommentForm onSubmit={handleCommentFormSubmit} />
         {isLoading && <CircularProgress className={classes.loaderIcon} />}
-        {commentCount > 0 && (
+        {currentUser && commentCount > 0 && (
           <List className={classes.list}>
             {result &&
-              result.commentList.map((item, index) => (
-                <div key={item.id}>
-                  <ListItem key={item.id} alignItems="flex-start">
-                    <ListItemAvatar>
-                      <Avatar alt={item.user.name}>{item.user.name[0]}</Avatar>
-                    </ListItemAvatar>
-                    <ListItemText
-                      primary={item.user.name}
-                      secondary={
-                        <Typography className={classes.commentText}>
-                          {item.body}
-                        </Typography>
-                      }
-                    />
-                    {currentUser &&
-                      currentUser.id &&
-                      currentUser.id === item.userId && (
-                        <ListItemSecondaryAction
-                          className={classes.commentActions}
-                        >
-                          <IconButton className={classes.iconButton}>
-                            <EditIcon />
-                          </IconButton>
-                          <IconButton
-                            className={classes.iconButton}
-                            onClick={() => handleDeleteComment(item.id)}
-                          >
-                            <DeleteIcon />
-                          </IconButton>
-                        </ListItemSecondaryAction>
-                      )}
-                  </ListItem>
-
-                  {index !== result.commentList.length - 1 && (
-                    <Divider variant="inset" component="li" />
-                  )}
-                </div>
+              result.commentList.map((comment, index) => (
+                <CommentItem
+                  key={comment.id}
+                  isEditing={editingCommentId === comment.id}
+                  setIsEditing={setEditingCommentId}
+                  isLastItem={index === result.commentList.length - 1}
+                  comment={comment}
+                  currentUser={currentUser}
+                  onDeleteComment={handleDeleteComment}
+                  onUpdateComment={handleCommentFormSubmit}
+                />
               ))}
           </List>
         )}

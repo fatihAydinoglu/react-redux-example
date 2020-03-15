@@ -74,8 +74,19 @@ const commentsReducer = (
         [action.comment.postId]: {
           isLoading: LoadingStatus.LOADED,
           commentList: [
-            action.comment,
-            ...state[action.comment.postId].commentList,
+            // If comment is not included. CREATE: push new item
+            ...(state[action.comment.postId].commentList.find(
+              comment => comment.id === action.comment.id
+            )
+              ? []
+              : [action.comment]),
+            // UPDATE
+            ...state[action.comment.postId].commentList.map(comment => {
+              if (comment.id === action.comment.id) {
+                return { ...comment, ...action.comment }
+              }
+              return comment
+            }),
           ],
         },
       }
