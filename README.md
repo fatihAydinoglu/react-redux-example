@@ -27,6 +27,7 @@ This is an example application to demonstrate how Redux and some other popular l
 
 - **[Redux](https://redux.js.org/)**
   - [Redux-Saga](https://redux-saga.js.org/) is used for side effects
+  - [reselect](https://github.com/reduxjs/reselect) is used to get data from store to components.
 
 - **[TypeScript](https://www.typescriptlang.org/)**
   - `yarn tsc` command can be used in development or at CI pipeline to check type errors.
