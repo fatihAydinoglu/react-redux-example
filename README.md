@@ -30,7 +30,7 @@ This is an example application to demonstrate how Redux and some other popular l
   - [reselect](https://github.com/reduxjs/reselect) is used to get data from store to components.
 
 - **[TypeScript](https://www.typescriptlang.org/)**
-  - `yarn tsc` command can be used in development or at CI pipeline to check type errors.
+  - `yarn tsc` command can be used in development or at CI pipeline to check type and other TypeScript related errors.
 
 - **[Material-UI](https://material-ui.com/)**
   - Material components and icons are used.
